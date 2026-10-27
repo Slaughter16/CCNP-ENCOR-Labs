@@ -142,7 +142,6 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 R4# show ip ospf neighbor 
 
 ![R4 interface status](screenshots/01-show-ip-int-brief-R4.png)
-
 R1# show ip ospf neighbor
 R1# ping 10.255.0.4 source loopback 0
 ```
