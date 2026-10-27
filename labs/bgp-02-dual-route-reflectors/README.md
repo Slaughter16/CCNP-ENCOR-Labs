@@ -132,63 +132,75 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 
 ## Verification
 
-> \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*TODO:\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* For each check, paste the output or add a screenshot, then write two or three sentences: what you ran, what to notice, and what it means.
+### 1. Underlay: interface addressing
 
-### 1\. OSPF neighbors and loopback reachability
+R4 (route reflector):
 
-```
+![R4 interfaces](screenshots/01-show-ip-int-brief-R4.png)
 
+R1 (client):
 
-R4# show ip ospf neighbor 
+![R1 interfaces](screenshots/02-show-ip-int-brief-R1.png)
 
-![R4 interface status](screenshots/01-show-ip-int-brief-R4.png)
-R1# show ip ospf neighbor
-R1# ping 10.255.0.4 source loopback 0
-```
+R5 (route reflector):
 
-### 2\. iBGP sessions on the route reflectors
+![R5 interfaces](screenshots/03-sh-ip-int-brief-R5.png)
 
-```
-R4# show ip bgp summary
-```
+Each router's links and Loopback0 are up/up with the addresses from the addressing table.
 
-### 3\. Client view of the destination prefix (two paths)
+### 2. Underlay: OSPF neighbors
 
-```
-R1# show ip bgp 10.200.8.0
-```
+R4:
 
-### 4\. Next-hop reachability
+![R4 OSPF neighbors](screenshots/04-sh-ip-ospf-neighbor-R4.png)
 
-```
-R1# show ip route 10.200.8.0
-R1# traceroute 10.200.8.1 source loopback 0
-```
+R5:
 
-### 5\. Reflected route attributes
+![R5 OSPF neighbors](screenshots/05-sh-ip-ospf-neighbor-R5.png)
 
-```
-R2# show ip bgp 10.200.8.0
-```
+Both route reflectors have FULL adjacencies with the three clients and with each other.
 
-Look for the Originator and Cluster list lines.
+### 3. Underlay: routes learned through OSPF
 
-### 6\. Redundancy test (shut R4, then R5)
+R1:
 
-```
-R1# show ip bgp summary
-R1# show ip bgp 10.200.8.0
-```
+![R1 OSPF routes](screenshots/06-sh-ip-route-ospf-R1.png)
 
-### 7\. Local Preference steering
+R4:
 
-```
-R1# show ip bgp 10.200.8.0
-R1# traceroute 10.200.8.1 source loopback 0
-```
+![R4 OSPF routes](screenshots/07-sh-ip-route-ospf-R4.png)
 
-\---
+OSPF carries the loopbacks of every core router, which is what the iBGP sessions will peer on.
 
+### 4. Underlay: loopback reachability
+
+![R1 loopback pings](screenshots/08-ping-loopbacks-R1.png)
+
+R1 reaches the other core routers' loopbacks when sourced from its own Loopback0, the same path the iBGP sessions will use.
+
+### 5. iBGP sessions on the route reflectors
+
+(screenshot goes here)
+
+### 6. Client view of the destination prefix (two paths)
+
+(screenshot goes here)
+
+### 7. Next-hop reachability
+
+(screenshot goes here)
+
+### 8. Reflected route attributes
+
+(screenshot goes here)
+
+### 9. Redundancy test
+
+(screenshot goes here)
+
+### 10. Local Preference steering
+
+(screenshot goes here)
 ## Troubleshooting: bugs found and fixed
 
 > \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*TODO:\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* Keep a Notepad log while you build and paste each problem here. This section is the most valuable part of the lab.
