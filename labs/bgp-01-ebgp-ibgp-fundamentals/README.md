@@ -4,7 +4,7 @@
 **Topics:** iBGP, route reflectors, peer-groups, OSPF underlay, eBGP, next-hop-self, best-path selection, redundancy
 **Environment:** EVE-NG on Proxmox, Cisco IOS (version: \_\_\_)
 
-> \\\*\\\*TODO (delete when done):\\\*\\\* Everything marked TODO is yours to fill in from your own lab. Replace the placeholders with real outputs, screenshots, and sentences about what you saw.
+> \\\\\\\*\\\\\\\*TODO (delete when done):\\\\\\\*\\\\\\\* Everything marked TODO is yours to fill in from your own lab. Replace the placeholders with real outputs, screenshots, and sentences about what you saw.
 
 \---
 
@@ -20,7 +20,7 @@
 
 ## Findings
 
-> \\\*\\\*TODO:\\\*\\\* Write 3 to 5 one-line results after you finish. Examples of the kind of line to write:
+> \\\\\\\*\\\\\\\*TODO:\\\\\\\*\\\\\\\* Write 3 to 5 one-line results after you finish. Examples of the kind of line to write:
 > - What happened to the clients' tables when one RR was shut down.
 > - Which upstream path won by default, and which tiebreaker decided it.
 > - What changed after the LocPref policy, with the traceroute to prove it.
@@ -29,16 +29,16 @@
 
 ## Topology
 
-> \\\*\\\*TODO:\\\*\\\* Add your EVE-NG topology screenshot here.
-> `!\\\[Topology](screenshots/01-topology.png)`
+> \\\\\\\*\\\\\\\*TODO:\\\\\\\*\\\\\\\* Add your EVE-NG topology screenshot here.
+> `!\\\\\\\[Topology](screenshots/01-topology.png)`
 
 ```
                  AS 65100 (iBGP core, OSPF underlay)
 
         R1 ---------- R4 (RR) ---------- R6 (AS 65200) ----
-        R2 ---------- R4 (RR)                                \\\\
+        R2 ---------- R4 (RR)                                \\\\\\\\
         R3 ---------- R4 (RR)                                 R8 (AS 65400)
-         \\\\             |                                     /
+         \\\\\\\\             |                                     /
           (each client also links to R5)                     /
         R1 ---------- R5 (RR) ---------- R7 (AS 65300) ----
         R2 ---------- R5 (RR)
@@ -68,7 +68,7 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 
 ### Links
 
-> \\\*\\\*TODO:\\\*\\\* Fill in the interface column from your own EVE-NG cabling.
+> \\\\\\\*\\\\\\\*TODO:\\\\\\\*\\\\\\\* Fill in the interface column from your own EVE-NG cabling.
 
 |Link|Subnet|Left router (.1)|Right router (.2)|Interfaces|
 |-|-|-|-|-|
@@ -102,7 +102,7 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 
 ## Config highlights
 
-> \\\*\\\*TODO:\\\*\\\* Paste only the lines that matter, and add one sentence under each saying why. Full files go in `configs/`.
+> \\\\\\\*\\\\\\\*TODO:\\\\\\\*\\\\\\\* Paste only the lines that matter, and add one sentence under each saying why. Full files go in `configs/`.
 
 ### Route reflector peer-group (R4 and R5)
 
@@ -132,11 +132,17 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 
 ## Verification
 
-> \\\*\\\*TODO:\\\*\\\* For each check, paste the output or add a screenshot, then write two or three sentences: what you ran, what to notice, and what it means.
+> \\\\\\\*\\\\\\\*TODO:\\\\\\\*\\\\\\\* For each check, paste the output or add a screenshot, then write two or three sentences: what you ran, what to notice, and what it means.
 
 ### 1\. OSPF neighbors and loopback reachability
 
 ```
+
+
+R4# show ip ospf neighbor 
+
+!\[R4 interface status](screenshots/01-show-ip-int-brief-R4.png)
+
 R1# show ip ospf neighbor
 R1# ping 10.255.0.4 source loopback 0
 ```
@@ -186,7 +192,7 @@ R1# traceroute 10.200.8.1 source loopback 0
 
 ## Troubleshooting: bugs found and fixed
 
-> \\\*\\\*TODO:\\\*\\\* Keep a Notepad log while you build and paste each problem here. This section is the most valuable part of the lab.
+> \\\\\\\*\\\\\\\*TODO:\\\\\\\*\\\\\\\* Keep a Notepad log while you build and paste each problem here. This section is the most valuable part of the lab.
 
 ### Bug 1: (title)
 
@@ -198,7 +204,7 @@ Fix:**
 
 ## Design decisions
 
-> \\\*\\\*TODO:\\\*\\\* Answer each question in your own words, with evidence from the lab.
+> \\\\\\\*\\\\\\\*TODO:\\\\\\\*\\\\\\\* Answer each question in your own words, with evidence from the lab.
 
 * **Where does `next-hop-self` go, and why on the route reflectors instead of the clients?**
 * **Should R4 and R5 peer with each other, and as clients or non-clients?**
