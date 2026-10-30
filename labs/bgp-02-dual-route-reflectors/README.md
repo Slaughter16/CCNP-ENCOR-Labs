@@ -72,17 +72,17 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 
 |Link|Subnet|Left router (.1)|Right router (.2)|Interfaces|
 |-|-|-|-|-|
-|R1 to R4|10.10.14.0/30|R1|R4|TODO|
-|R1 to R5|10.10.15.0/30|R1|R5|TODO|
-|R2 to R4|10.10.24.0/30|R2|R4|TODO|
-|R2 to R5|10.10.25.0/30|R2|R5|TODO|
-|R3 to R4|10.10.34.0/30|R3|R4|TODO|
-|R3 to R5|10.10.35.0/30|R3|R5|TODO|
-|R4 to R5|10.10.45.0/30|R4|R5|TODO|
-|R4 to R6|10.10.46.0/30|R4|R6|TODO|
-|R5 to R7|10.10.57.0/30|R5|R7|TODO|
-|R6 to R8|10.10.68.0/30|R6|R8|TODO|
-|R7 to R8|10.10.78.0/30|R7|R8|TODO|
+|R1 to R4|10.10.14.0/30|R1|R4|e0/0|
+|R1 to R5|10.10.15.0/30|R1|R5|e0/1|
+|R2 to R4|10.10.24.0/30|R2|R4|e0/0|
+|R2 to R5|10.10.25.0/30|R2|R5|e0/1|
+|R3 to R4|10.10.34.0/30|R3|R4|e0/0|
+|R3 to R5|10.10.35.0/30|R3|R5|e0/1|
+|R4 to R5|10.10.44.0/30|R4|R5|e1/0|
+|R4 to R6|10.10.45.0/30|R4|R6|e0/3|
+|R5 to R7|10.10.46.0/30|R5|R7|e0/3|
+|R6 to R8|10.10.68.0/30|R6|R8|e0/0|
+|R7 to R8|10.10.78.0/30|R7|R8|e0/0|
 
 \---
 
