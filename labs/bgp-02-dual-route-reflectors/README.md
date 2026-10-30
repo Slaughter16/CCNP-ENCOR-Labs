@@ -211,7 +211,7 @@ Symptom: Without update-source Loopback0, sessions between loopback addresses fa
 Root cause: By default, when initiating a TCP connection to a peer loopback address, the router uses its physical exit interface IP (such as a /30 link IP) as the source address. The remote router rejects the packet because the incoming source IP does not match the expected neighbor statement, keeping the session stuck in Idle or Active
 Fix: Configured neighbor RR-CLIENTS update-source Loopback0 under router bgp 65100 on both the route reflectors and clients to force outgoing BGP packets to source from Loopback0.
 
-\---
+---
 
 ## Design decisions
 
