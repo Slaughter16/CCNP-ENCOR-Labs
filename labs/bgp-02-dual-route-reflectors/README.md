@@ -180,7 +180,13 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 ### 5. iBGP sessions on the route reflectors
 
-(screenshot goes here)
+![R4 BGP summary](screenshots/12-sh-ip-bgp-sum-R4.png)
+
+R4 has all three clients Established. The last column is the prefix count (0 for now), not a state, because no external routes have been advertised yet.
+
+![R5 BGP summary](screenshots/13-sh-ip-bgp-sum-R5.png)
+
+R5 shows the same three clients Established, so both route reflectors serve the same client set.
 
 ### 6. Client view of the destination prefix (two paths)
 
