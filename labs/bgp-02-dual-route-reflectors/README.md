@@ -212,7 +212,8 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 * **Fix:** Configured `neighbor RR-CLIENTS update-source Loopback0` under `router bgp 65100` on both the route reflectors and clients to force outgoing BGP packets to source from Loopback0.
 
 ![R4 before update source fix ](screenshots/09-sh-ip-bgp-sum-R4-break.png)
-![R4 after update source fix](screenshots/10-sh-ip-bgp-sum-R4-After-Break.png)
+![R4 during update source break](screenshots/10-sh-ip-bgp-sum-R4-After-Break.png)
+![R4 after update source fix](screenshots/11-sh-ip-bgp-sum-after-fix.png)
 
 ---
 
