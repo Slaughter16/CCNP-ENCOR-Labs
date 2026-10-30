@@ -62,7 +62,7 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 |R3|65100|iBGP client|3.3.3.3/32|peers with R4 and R5|
 |R4|65100|route reflector|4.4.4.4/32|eBGP to R6|
 |R5|65100|route reflector|5.5.5.5/32|eBGP to R7|
-|R6|65200|upstream A|6.6.6.6|top path|
+|R6|65200|upstream A|6.6.6.6/32|top path|
 |R7|65300|upstream B|7.7.7.7/32|bottom path|
 |R8|65400|destination|8.8.8.8/32|originates 10.200.8.0/24 (Loopback100)|
 
