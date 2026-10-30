@@ -207,9 +207,9 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 ### Bug 1: Missing BGP Update-Source for Loopback Peering
 
-** Symptom: Without update-source Loopback0, sessions between loopback addresses fail, because the source address doesn’t match the neighbor statement
-** Root cause: By default, when initiating a TCP connection to a peer loopback address, the router uses its physical exit interface IP (such as a /30 link IP) as the source address. The remote router rejects the packet because the incoming source IP does not match the expected neighbor statement, keeping the session stuck in Idle or Active
-** Fix: Configured neighbor RR-CLIENTS update-source Loopback0 under router bgp 65100 on both the route reflectors and clients to force outgoing BGP packets to source from Loopback0.
+**Symptom:** Without `update-source Loopback0`, sessions between loopback addresses fail because the source address doesn’t match the neighbor statement
+**Root cause:** By default, when initiating a TCP connection to a peer loopback address, the router uses its physical exit interface IP (such as a `/30` link IP) as the source address. The remote router rejects the packet because the incoming source IP does not match the expected neighbor statement, keeping the session stuck in Idle or Active.
+**Fix:** Configured `neighbor RR-CLIENTS update-source Loopback0` under `router bgp 65100` on both the route reflectors and clients to force outgoing BGP packets to source from Loopback0.
 
 ---
 
