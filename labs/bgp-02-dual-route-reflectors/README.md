@@ -211,8 +211,8 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 * **Root cause:** By default, when initiating a TCP connection to a peer loopback address, the router uses its physical exit interface IP (such as a `/30` link IP) as the source address. The remote router rejects the packet because the incoming source IP does not match the expected neighbor statement, keeping the session stuck in Idle or Active.
 * **Fix:** Configured `neighbor RR-CLIENTS update-source Loopback0` under `router bgp 65100` on both the route reflectors and clients to force outgoing BGP packets to source from Loopback0.
 
-![R4 before update source fix ](screenshots/09-sh ip bgp sum- R4-break.png)
-![R4 after update source fix](screenshots/10-sh ip bgp sum- R4-After-Break.png)
+![R4 before update source fix ](screenshots/09-sh-ip-bgp sum- R4-break.png)
+![R4 after update source fix](screenshots/10-sh-ip-bgp-sum-R4-After-Break.png)
 
 ---
 
