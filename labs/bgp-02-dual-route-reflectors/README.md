@@ -44,41 +44,39 @@
 
 ## Addressing
 
-All point-to-point links use /30 subnets. On each link, the lower-numbered router takes `.1` and the higher-numbered router takes `.2`. Every router has Loopback0 as `10.255.0.N/32`, where N is the router number, and that address is also its BGP router ID.
+All point-to-point links use /30 subnets. On each link, the lower-numbered router takes `.1` and the higher-numbered router takes `.2`. Every router has Loopback0 as `N.N.N.N/32`, where N is the router number, and that address is also its BGP router ID.
 
 ### Routers
 
-|Router|AS|Role|Loopback0|Notes|
-|-|-|-|-|-|
-|R1|65100|iBGP client|1.1.1.1/32|peers with R4 and R5|
-|R2|65100|iBGP client|2.2.2.2/32|peers with R4 and R5|
-|R3|65100|iBGP client|3.3.3.3/32|peers with R4 and R5|
-|R4|65100|route reflector|4.4.4.4/32|eBGP to R6|
-|R5|65100|route reflector|5.5.5.5/32|eBGP to R7|
-|R6|65200|upstream A|6.6.6.6/32|top path|
-|R7|65300|upstream B|7.7.7.7/32|bottom path|
-|R8|65400|destination|8.8.8.8/32|originates 10.200.8.0/24 from the LAN port facing the VPC|
+| Router | AS | Role | Loopback0 | Notes |
+|---|---|---|---|---|
+| R1 | 65100 | iBGP client | 1.1.1.1/32 | peers with R4 and R5; originates its loopback for return traffic |
+| R2 | 65100 | iBGP client | 2.2.2.2/32 | peers with R4 and R5 |
+| R3 | 65100 | iBGP client | 3.3.3.3/32 | peers with R4 and R5 |
+| R4 | 65100 | route reflector | 4.4.4.4/32 | eBGP to R6 |
+| R5 | 65100 | route reflector | 5.5.5.5/32 | eBGP to R7 |
+| R6 | 65200 | upstream A | 6.6.6.6/32 | top path |
+| R7 | 65300 | upstream B | 7.7.7.7/32 | bottom path |
+| R8 | 65400 | destination | 8.8.8.8/32 | originates 10.200.8.0/24 from the LAN port facing the VPC |
 
 ### Links
 
+| Link | Subnet | Left router (.1) | Right router (.2) | Left interface | Right interface |
+|---|---|---|---|---|---|
+| R1 to R4 | 10.10.14.0/30 | R1 | R4 | e0/0 | e0/0 |
+| R1 to R5 | 10.10.15.0/30 | R1 | R5 | e0/1 | e0/1 |
+| R2 to R4 | 10.10.24.0/30 | R2 | R4 | e0/0 | e0/1 |
+| R2 to R5 | 10.10.25.0/30 | R2 | R5 | e0/1 | e0/0 |
+| R3 to R4 | 10.10.34.0/30 | R3 | R4 | e0/0 | e0/2 |
+| R3 to R5 | 10.10.35.0/30 | R3 | R5 | e0/1 | e0/2 |
+| R4 to R5 | 10.10.44.0/30 | R4 | R5 | e1/0 | e1/0 |
+| R4 to R6 | 10.10.45.0/30 | R4 | R6 | e0/3 | e0/1 |
+| R5 to R7 | 10.10.46.0/30 | R5 | R7 | e0/3 | e0/1 |
+| R6 to R8 | 10.10.68.0/30 | R6 | R8 | e0/0 | e0/1 |
+| R7 to R8 | 10.10.78.0/30 | R7 | R8 | e0/0 | e0/2 |
+| R8 to VPC | 10.200.8.0/24 | R8 (.1) | VPC (.10) | e0/0 | eth0 |
 
-Links
-Link	Subnet	Left router (.1)	Right router (.2)	Left interface	Right interface
-R1 to R4	10.10.14.0/30	R1	R4	e0/0	e0/0
-R1 to R5	10.10.15.0/30	R1	R5	e0/1	e0/1
-R2 to R4	10.10.24.0/30	R2	R4	e0/0	e0/1
-R2 to R5	10.10.25.0/30	R2	R5	e0/1	e0/0
-R3 to R4	10.10.34.0/30	R3	R4	e0/0	e0/2
-R3 to R5	10.10.35.0/30	R3	R5	e0/1	e0/2
-R4 to R5	10.10.44.0/30	R4	R5	e1/0	e1/0
-R4 to R6	10.10.45.0/30	R4	R6	e0/3	e0/1
-R5 to R7	10.10.46.0/30	R5	R7	e0/3	e0/1
-R6 to R8	10.10.68.0/30	R6	R8	e0/0	e0/1
-R7 to R8	10.10.78.0/30	R7	R8	e0/0	e0/2
-R8 to VPC	10.200.8.0/24	R8 (.1)	VPC (.10)	e0/0	eth0
-
-
-\---
+---
 
 ## Design plan
 
