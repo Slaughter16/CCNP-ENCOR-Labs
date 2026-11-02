@@ -28,20 +28,18 @@
 ## Topology
 
 ```
-                 AS 65100 (iBGP core, OSPF underlay)
+                AS 65100 (iBGP core, OSPF underlay)
 
-        R1 ---------- R4 (RR) ---------- R6 (AS 65200) ----
-        R2 ---------- R4 (RR)                                \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-        R3 ---------- R4 (RR)                                 R8 (AS 65400)
-         \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\             |                                     /
-          (each client also links to R5)                     /
-        R1 ---------- R5 (RR) ---------- R7 (AS 65300) ----
-        R2 ---------- R5 (RR)
-        R3 ---------- R5 (RR)
+   R1 ----+---- R4 (RR) ---- R6 (AS 65200) ----+
+   R2 ----+                                     |
+   R3 ----+                                     R8 (AS 65400) ---- VPC 10.200.8.10
+   R1 ----+                                     |
+   R2 ----+---- R5 (RR) ---- R7 (AS 65300) ----+
+   R3 ----+
 
-        R4 <----------> R5   (RR to RR link)
+   R4 ---- R5   (RR to RR link)
+   Each client (R1, R2, R3) links to both R4 and R5.
 
-        R8 originates 10.200.8.0/24 from Loopback100
 ```
 
 ## Addressing
@@ -59,24 +57,26 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 |R5|65100|route reflector|5.5.5.5/32|eBGP to R7|
 |R6|65200|upstream A|6.6.6.6/32|top path|
 |R7|65300|upstream B|7.7.7.7/32|bottom path|
-|R8|65400|destination|8.8.8.8/32|originates 10.200.8.0/24 (Loopback100)|
+|R8|65400|destination|8.8.8.8/32|originates 10.200.8.0/24 from the LAN port facing the VPC|
 
 ### Links
 
 
-|Link|Subnet|Left router (.1)|Right router (.2)|Interfaces|
-|-|-|-|-|-|
-|R1 to R4|10.10.14.0/30|R1|R4|e0/0|
-|R1 to R5|10.10.15.0/30|R1|R5|e0/1|
-|R2 to R4|10.10.24.0/30|R2|R4|e0/0|
-|R2 to R5|10.10.25.0/30|R2|R5|e0/1|
-|R3 to R4|10.10.34.0/30|R3|R4|e0/0|
-|R3 to R5|10.10.35.0/30|R3|R5|e0/1|
-|R4 to R5|10.10.44.0/30|R4|R5|e1/0|
-|R4 to R6|10.10.45.0/30|R4|R6|e0/3|
-|R5 to R7|10.10.46.0/30|R5|R7|e0/3|
-|R6 to R8|10.10.68.0/30|R6|R8|e0/0|
-|R7 to R8|10.10.78.0/30|R7|R8|e0/0|
+Links
+Link	Subnet	Left router (.1)	Right router (.2)	Left interface	Right interface
+R1 to R4	10.10.14.0/30	R1	R4	e0/0	e0/0
+R1 to R5	10.10.15.0/30	R1	R5	e0/1	e0/1
+R2 to R4	10.10.24.0/30	R2	R4	e0/0	e0/1
+R2 to R5	10.10.25.0/30	R2	R5	e0/1	e0/0
+R3 to R4	10.10.34.0/30	R3	R4	e0/0	e0/2
+R3 to R5	10.10.35.0/30	R3	R5	e0/1	e0/2
+R4 to R5	10.10.44.0/30	R4	R5	e1/0	e1/0
+R4 to R6	10.10.45.0/30	R4	R6	e0/3	e0/1
+R5 to R7	10.10.46.0/30	R5	R7	e0/3	e0/1
+R6 to R8	10.10.68.0/30	R6	R8	e0/0	e0/1
+R7 to R8	10.10.78.0/30	R7	R8	e0/0	e0/2
+R8 to VPC	10.200.8.0/24	R8 (.1)	VPC (.10)	e0/0	eth0
+
 
 \---
 
