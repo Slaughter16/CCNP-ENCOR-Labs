@@ -4,7 +4,6 @@
 **Topics:** iBGP, route reflectors, peer-groups, OSPF underlay, eBGP, next-hop-self, best-path selection, redundancy
 **Environment:** EVE-NG on Proxmox, Cisco IOS (version: \_\_\_)
 
-> \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*TODO (delete when done):\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* Everything marked TODO is yours to fill in from your own lab. Replace the placeholders with real outputs, screenshots, and sentences about what you saw.
 
 \---
 
@@ -20,7 +19,6 @@
 
 ## Findings
 
-> \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*TODO:\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* Write 3 to 5 one-line results after you finish. Examples of the kind of line to write:
 > - What happened to the clients' tables when one RR was shut down.
 > - Which upstream path won by default, and which tiebreaker decided it.
 > - What changed after the LocPref policy, with the traceroute to prove it.
@@ -28,9 +26,6 @@
 \---
 
 ## Topology
-
-> \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*TODO:\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* Add your EVE-NG topology screenshot here.
-> `!\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\[Topology](screenshots/01-topology.png)`
 
 ```
                  AS 65100 (iBGP core, OSPF underlay)
@@ -68,7 +63,6 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 
 ### Links
 
-> \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*TODO:\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* Fill in the interface column from your own EVE-NG cabling.
 
 |Link|Subnet|Left router (.1)|Right router (.2)|Interfaces|
 |-|-|-|-|-|
@@ -102,7 +96,6 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 
 ## Config highlights
 
-> \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*TODO:\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* Paste only the lines that matter, and add one sentence under each saying why. Full files go in `configs/`.
 
 ### Route reflector peer-group (R4 and R5)
 
@@ -209,7 +202,6 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 (screenshot goes here)
 ## Troubleshooting: bugs found and fixed
 
-> \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*TODO:\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* Keep a Notepad log while you build and paste each problem here. This section is the most valuable part of the lab.
 
 ### Bug 1: Missing BGP Update-Source for Loopback Peering
 
@@ -225,7 +217,6 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 ## Design decisions
 
-> \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*TODO:\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\* Answer each question in your own words, with evidence from the lab.
 
 * **Where does `next-hop-self` go, and why on the route reflectors instead of the clients?**
 * **Should R4 and R5 peer with each other, and as clients or non-clients?**
