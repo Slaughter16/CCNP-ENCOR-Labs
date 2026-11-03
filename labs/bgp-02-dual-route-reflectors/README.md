@@ -181,7 +181,7 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 * After eBGP came up, R4's summary also shows its eBGP neighbor and the prefix counts:
 
-![R5 BGP summary](screenshots/1515-sh-ip-bgp-summary-R4.png)
+![R4 BGP summary after](screenshots/15-sh-ip-bgp-summary-R4.png)
 
 
 *R4 now has five Established neighbors: the three clients, R5, and R6 (AS 65200) over the physical link address. R1 and R6 each send one prefix, R5 sends two, and R2 and R3 send none because they originate nothing.
@@ -189,7 +189,13 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 ### 6. Client view of the destination prefix (two paths)
 
-(screenshot goes here)
+![R1 BGP ping to VPC](screenshots/14-sh-ip-bgp-10.200.8.0-R1.png)
+
+*R1 learns 10.200.8.0/24 from both route reflectors, so it holds two paths: one through R5 (AS-path 65300 65400) and one through R4 (AS-path 65200 65400). Both have LocPref 100, the same AS-path length, and the same IGP metric (11) to their next hops. Lowest router ID breaks the tie, so R4's path (4.4.4.4) is best. The routing table installs it as an iBGP route with administrative distance 200.
+
+![R1 Traceroute to VPC](screenshots/16-ping-traceroute-toVPC-R1.png)
+
+*The ping from R1's Loopback0 succeeds, and the traceroute shows the path R1 actually uses: R4 (10.10.14.2), R6 (10.10.45.2), R8 (10.10.68.2), then the VPC. That matches the best path through R4 and upstream AS 65200.
 
 ### 7. Next-hop reachability
 
