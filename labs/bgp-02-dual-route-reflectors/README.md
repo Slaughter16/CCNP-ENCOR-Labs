@@ -179,6 +179,14 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 * R5 shows the same three clients Established, so both route reflectors serve the same client set.
 
+* After eBGP came up, R4's summary also shows its eBGP neighbor and the prefix counts:
+
+![R5 BGP summary](screenshots/1515-sh-ip-bgp-summary-R4.png)
+
+
+*R4 now has five Established neighbors: the three clients, R5, and R6 (AS 65200) over the physical link address. R1 and R6 each send one prefix, R5 sends two, and R2 and R3 send none because they originate nothing.
+
+
 ### 6. Client view of the destination prefix (two paths)
 
 (screenshot goes here)
