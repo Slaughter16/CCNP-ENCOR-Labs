@@ -197,6 +197,10 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 *The ping from R1's Loopback0 succeeds, and the traceroute shows the path R1 actually uses: R4 (10.10.14.2), R6 (10.10.45.2), R8 (10.10.68.2), then the VPC. That matches the best path through R4 and upstream AS 65200.
 
+[VPC Traceroute to R1](screenshots/17-VPC-ping-R1.png)
+
+*The VPC's trace back to R1 goes through R8, R6, and R4, the same path R1 uses to reach the VPC, so the traffic is symmetric. The last line is R1 answering with "destination port unreachable", which is how a VPCS trace shows that the probe reached its target.
+
 ### 7. Next-hop reachability
 
 (screenshot goes here)
