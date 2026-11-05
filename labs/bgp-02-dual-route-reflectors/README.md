@@ -203,7 +203,13 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 ### 7. Next-hop reachability
 
-(screenshot goes here)
+![R1 ping next hop proof](screenshots/19-R1-ping-nexthop-proof.png)
+
+*R4 and R5 learn 10.200.8.0/24 over eBGP, so the next hop starts out as the upstream's link address (R6 or R7), and iBGP does not rewrite it. Those link subnets are not in OSPF, so the clients cannot reach them. With `next-hop-self` on the route reflectors, R1 sees the RRs' loopbacks (4.4.4.4 and 5.5.5.5) as next hops, both reachable at IGP metric 11, so R1 selects a best path and the ping to the VPC succeeds.
+
+![R4 next hop self proof](screenshots/20-R4-nexthop-self.png)
+
+* `next-hop-self` is applied once on the RR-CLIENTS peer-group, so all three clients get it. It is also set on the R4-to-R5 session, so each route reflector's backup copy of the path has a next hop its peer can reach.
 
 ### 8. Reflected route attributes
 
@@ -228,6 +234,21 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 ![R1 before update source fix ](screenshots/09-sh-ip-bgp-sum-R1.png)
 ![R4 during update source break](screenshots/10-sh-ip-bgp-sum-R4-After-Break.png)
 ![R4 after update source fix](screenshots/11-sh-ip-bgp-sum-after-fix.png)
+
+
+### Bug 2: Next hops unreachable on the clients
+
+* **Symptom:** R1 showed 10.200.8.0/24 with two paths, but `no best path`, and both next hops were marked `(inaccessible)`. A ping from R1's Loopback0 to the VPC failed (0/5).
+* **Root cause:** R4 and R5 learn the prefix over eBGP, so the next hops are R6's and R7's link addresses (10.10.45.2 and 10.10.46.2). iBGP does not rewrite the next hop, and those eBGP link subnets are deliberately kept out of OSPF, so R1 had no route to either next hop and could not use either path.
+* **Fix:** Applied `next-hop-self` to the RR-CLIENTS peer-group on R4 and R5, then ran `clear ip bgp * soft out`. R1's paths now use 4.4.4.4 and 5.5.5.5 as next hops, a best path is selected, and the ping succeeds. (Reproduced for the screenshots by removing the line, then restoring it.)
+
+Broken state:
+
+![R1 broken next hop](screenshots/18-nexthop-broken-R1.png)
+
+After the fix:
+![R1 ping next hop proof](screenshots/19-R1-ping-nexthop-proof.png)
+
 
 ---
 
