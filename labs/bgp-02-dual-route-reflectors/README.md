@@ -190,6 +190,9 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 ### 6. Client view of the destination prefix (two paths)
 
 ![R1 BGP ping to VPC](screenshots/14-sh-ip-bgp-10.200.8.0-R1.png)
+![R2 BGP ping to VPC](screenshots/21-R2-shipbgp-proof.png)
+![R3 BGP ping to VPC](screenshots/22-R3-shipbgp.png)
+
 
 *R1 learns 10.200.8.0/24 from both route reflectors, so it holds two paths: one through R5 (AS-path 65300 65400) and one through R4 (AS-path 65200 65400). Both have LocPref 100, the same AS-path length, and the same IGP metric (11) to their next hops. Lowest router ID breaks the tie, so R4's path (4.4.4.4) is best. The routing table installs it as an iBGP route with administrative distance 200.
 
