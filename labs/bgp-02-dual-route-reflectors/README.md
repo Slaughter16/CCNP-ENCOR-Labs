@@ -231,7 +231,9 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 *R4 loses its eBGP path through R6. It keeps only the iBGP path learned from R5 (next hop 5.5.5.5, AS-path 65300 65400), which is now the best path.
 
+![R3 BGP ping to VPC](screenshots/24-R1-failover-ping-toVPC.png)
 
+* R1's ping to the VPC still succeeds (5/5). The traceroute now goes through R5, R7, and R8 instead of R4, R6, and R8. The clients kept working because the second upstream path was already in the table.
 
 ### 10. Local Preference steering
 
