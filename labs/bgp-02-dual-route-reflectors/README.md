@@ -216,7 +216,12 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 ### 8. Reflected route attributes
 
-(screenshot goes here)
+![R2 view to R1 proof](screenshots/23-sh-ip-bgp-to-R1-from-R2.png)
+
+*R2 has no BGP session with R1, so it learns 1.1.1.1/32 through the route reflectors. The route arrives twice, once from R4 and once from R5. Each copy carries an Originator of 1.1.1.1 (R1's router ID, the client that first advertised it) and a Cluster list holding the reflecting router's cluster ID (4.4.4.4 for R4's copy, 5.5.5.5 for R5's). These attributes appear only on reflected routes, which shows the route reflectors are doing the work. Both paths tie on every attribute and on the IGP metric (21), and R4's copy is marked best.
+
+*The header also says RIB-failure(17). R2 does not install the BGP route because OSPF already provides 1.1.1.1/32 with a lower administrative distance.
+
 
 ### 9. Redundancy test
 
