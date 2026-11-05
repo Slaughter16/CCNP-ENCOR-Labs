@@ -225,7 +225,13 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 ### 9. Redundancy test
 
-(screenshot goes here)
+**Upstream failure:** R4's link to R6 (e0/3) was shut down.
+
+![R1 shut int to VPC](screenshots/25-R4-shut.png)
+
+*R4 loses its eBGP path through R6. It keeps only the iBGP path learned from R5 (next hop 5.5.5.5, AS-path 65300 65400), which is now the best path.
+
+
 
 ### 10. Local Preference steering
 
