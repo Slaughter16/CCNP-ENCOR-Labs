@@ -209,7 +209,7 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 ![R4 next hop self proof](screenshots/20-R4-nexthop-self.png)
 
-* `next-hop-self` is applied once on the RR-CLIENTS peer-group, so all three clients get it. It is also set on the R4-to-R5 session, so each route reflector's backup copy of the path has a next hop its peer can reach.
+`next-hop-self` is applied once on the RR-CLIENTS peer-group, so all three clients get it. It is also set on the R4-to-R5 session, so each route reflector's backup copy of the path has a next hop its peer can reach.
 
 ### 8. Reflected route attributes
 
@@ -247,6 +247,7 @@ Broken state:
 ![R1 broken next hop](screenshots/18-nexthop-broken-R1.png)
 
 After the fix:
+
 ![R1 ping next hop proof](screenshots/19-R1-ping-nexthop-proof.png)
 
 
