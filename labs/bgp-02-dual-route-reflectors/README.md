@@ -225,15 +225,14 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 ### 9. Redundancy test
 
-**Upstream failure:** R4's link to R6 (e0/3) was shut down.
+* Before the failure, R1 holds two paths to 10.200.8.0/24, one through each route reflector (see section 6). Then the R4 node was stopped completely.
 
-![R1 shut int to VPC](screenshots/25-R4-shut.png)
+![R1 failover to R5](screenshots/25-R1-ping-to-VPC-after-R4down.png)
 
-*R4 loses its eBGP path through R6. It keeps only the iBGP path learned from R5 (next hop 5.5.5.5, AS-path 65300 65400), which is now the best path.
+* R1's session to R4 (4.4.4.4) dropped to Idle with no messages exchanged, while the session to R5 (5.5.5.5) stayed Established. The route to 10.200.8.0/24 is still in R1's table, now as a single path through R5 (AS-path 65300 65400), so it is the best path. The ping from R1's Loopback0 to the VPC still succeeds (5/5), and the traceroute now goes through R5, R7, and R8 instead of R4, R6, and R8.
 
-![R3 BGP ping to VPC](screenshots/24-R1-failover-ping-toVPC.png)
+* With two route reflectors, losing one does not cost the clients any routes. R1 has a session to each, and each one already had the route.
 
-* R1's ping to the VPC still succeeds (5/5). The traceroute now goes through R5, R7, and R8 instead of R4, R6, and R8. The clients kept working because the second upstream path was already in the table.
 
 ### 10. Local Preference steering
 
