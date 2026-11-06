@@ -236,7 +236,18 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 ### 10. Local Preference steering
 
-(screenshot goes here)
+* By default, R1 chooses between two equal upstream paths by tiebreaker. To choose deliberately, R5 sets Local Preference 200 on routes received from R7, so the whole AS prefers the path through R7.
+
+![R5 route-map](screenshots/28-sh-route-map-R5.png)
+![R1 route-map](screenshots/26-sh-ip-bgp-R1-localpref.png)
+
+
+* R1's path through R5 now carries LocPref 200 and is best. Local Preference is shared across iBGP, so the policy is configured once on the edge router and every router in AS 65100 follows it. R1's traceroute to the VPC now goes through R5, R7, and R8.
+
+![R4 route-map](screenshots/27-sh-ip-bgp-localpref-R4.png)
+
+* R4 also prefers R5's path, even though it has its own eBGP path through R6. Local Preference is checked before the eBGP-over-iBGP rule, so R4 sends traffic across to R5 and out through R7.
+
 ## Troubleshooting: bugs found and fixed
 
 
