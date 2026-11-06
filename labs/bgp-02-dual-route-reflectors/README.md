@@ -98,25 +98,60 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 ### Route reflector peer-group (R4 and R5)
 
 ```
-(paste from your R4 config)
+router bgp 65100
+ bgp router-id 4.4.4.4
+ neighbor RR-CLIENTS peer-group
+ neighbor RR-CLIENTS remote-as 65100
+ neighbor RR-CLIENTS update-source Loopback0
+ neighbor RR-CLIENTS route-reflector-client
+ neighbor RR-CLIENTS next-hop-self
+ neighbor 1.1.1.1 peer-group RR-CLIENTS
+ neighbor 2.2.2.2 peer-group RR-CLIENTS
+ neighbor 3.3.3.3 peer-group RR-CLIENTS
+ neighbor 5.5.5.5 remote-as 65100
+ neighbor 5.5.5.5 update-source Loopback0
+ neighbor 5.5.5.5 next-hop-self
+
 ```
 
 ### iBGP client (R1 to R3)
 
 ```
-(paste from your R1 config)
+
+router bgp 65100
+ bgp router-id 1.1.1.1
+ bgp log-neighbor-changes
+ network 1.1.1.1 mask 255.255.255.255
+ neighbor 4.4.4.4 remote-as 65100
+ neighbor 4.4.4.4 update-source Loopback0
+ neighbor 5.5.5.5 remote-as 65100
+ neighbor 5.5.5.5 update-source Loopback0
+
 ```
 
 ### eBGP peering (R4 to R6)
 
 ```
-(paste from your R4 config)
+router bgp 65100
+ neighbor 10.10.45.2 remote-as 65200
+
 ```
 
 ### OSPF underlay
 
 ```
-(paste from your R4 config)
+ ip ospf network point-to-point
+ ip ospf network point-to-point
+ ip ospf network point-to-point
+ ip ospf network point-to-point
+router ospf 100
+ router-id 4.4.4.4
+ network 4.4.4.4 0.0.0.0 area 0
+ network 10.10.14.0 0.0.0.3 area 0
+ network 10.10.24.0 0.0.0.3 area 0
+ network 10.10.34.0 0.0.0.3 area 0
+ network 10.10.44.0 0.0.0.3 area 0
+
 ```
 
 \---
