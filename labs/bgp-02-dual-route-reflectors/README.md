@@ -2,8 +2,7 @@
 
 **ENCOR domain:** 3.0 Infrastructure
 **Topics:** iBGP, route reflectors, peer-groups, OSPF underlay, eBGP, next-hop-self, best-path selection, redundancy
-**Environment:** EVE-NG on Proxmox, Cisco IOS (version: \_\_\_)
-
+**Environment:** EVE-NG on Proxmox, Cisco IOL (i86bi-linux-l3-p-15.0b, IOS 15.0)
 
 \---
 
