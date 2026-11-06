@@ -94,8 +94,9 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 
 ## Config highlights
 
-
-### Route reflector peer-group (R4 and R5)
+* Full configs are in `configs/`. Only the lines that matter are shown here.
+  
+### Route reflector peer-group (R4)
 
 ```
 router bgp 65100
@@ -111,13 +112,13 @@ router bgp 65100
  neighbor 5.5.5.5 remote-as 65100
  neighbor 5.5.5.5 update-source Loopback0
  neighbor 5.5.5.5 next-hop-self
-
 ```
 
-### iBGP client (R1 to R3)
+* The peer-group holds the settings shared by all three clients: loopback peering, the reflector role, and `next-hop-self`. R4 and R5 peer with each other as a normal iBGP neighbor outside the group, so they are not clients of each other. R5 uses the same group with its own router ID (5.5.5.5).
+  
+### iBGP client (R1)
 
 ```
-
 router bgp 65100
  bgp router-id 1.1.1.1
  bgp log-neighbor-changes
@@ -126,24 +127,20 @@ router bgp 65100
  neighbor 4.4.4.4 update-source Loopback0
  neighbor 5.5.5.5 remote-as 65100
  neighbor 5.5.5.5 update-source Loopback0
-
 ```
+* Clients need no reflector configuration. R1 peers with both route reflectors over loopbacks and advertises its own loopback, so replies from the VPC have a route back.
 
 ### eBGP peering (R4 to R6)
 
 ```
 router bgp 65100
  neighbor 10.10.45.2 remote-as 65200
+```
+* eBGP uses the directly connected link address, so no `update-source` or multihop is needed. R5 does the same toward R7 (10.10.46.2, AS 65300).
+
+### OSPF underlay (R4)
 
 ```
-
-### OSPF underlay
-
-```
- ip ospf network point-to-point
- ip ospf network point-to-point
- ip ospf network point-to-point
- ip ospf network point-to-point
 router ospf 100
  router-id 4.4.4.4
  network 4.4.4.4 0.0.0.0 area 0
@@ -151,8 +148,12 @@ router ospf 100
  network 10.10.24.0 0.0.0.3 area 0
  network 10.10.34.0 0.0.0.3 area 0
  network 10.10.44.0 0.0.0.3 area 0
-
+!
+interface Ethernet 0/0-2 , 1/0 
+ ip ospf network point-to-point
 ```
+*OSPF carries R4's loopback and its four internal links in area 0. R4's link to R6 (10.10.45.0/30) is left out on purpose, so external link subnets stay out of the IGP. The same `point-to-point` line is on Ethernet0/1, Ethernet0/2, and Ethernet1/0, which skips the DR/BDR election on two-router links.
+
 
 \---
 
