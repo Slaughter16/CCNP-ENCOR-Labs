@@ -152,7 +152,7 @@ router ospf 100
 interface Ethernet 0/0-2 , 1/0 
  ip ospf network point-to-point
 ```
-* OSPF carries R4's loopback and its four internal links in area 0. R4's link to R6 (10.10.45.0/30) is left out on purpose, so external link subnets stay out of the IGP. The same `point-to-point` line is on Ethernet0/1, Ethernet0/2, and Ethernet1/0, which skips the DR/BDR election on two-router links.
+* OSPF carries R4's loopback and its four internal links in area 0. R4's link to R6 (10.10.45.0/30) is left out on purpose, so external link subnets stay out of the IGP. The same `point-to-point` line is on Ethernet 0/0, Ethernet0/1, Ethernet0/2, and Ethernet1/0, which skips the DR/BDR election on two-router links.
 
 
 \---
