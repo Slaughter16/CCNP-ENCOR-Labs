@@ -196,7 +196,7 @@ R4:
 
 ![R4 OSPF routes](screenshots/07-sh-ip-route-ospf-R4.png)
 
-OSPF carries the loopbacks of every core router, which is what the iBGP sessions will peer on.
+* OSPF carries the loopbacks of every core router, which is what the iBGP sessions will peer on.
 
 ### 4. Underlay: loopback reachability
 
