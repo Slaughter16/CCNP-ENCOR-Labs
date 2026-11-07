@@ -202,7 +202,7 @@ OSPF carries the loopbacks of every core router, which is what the iBGP sessions
 
 ![R1 loopback pings](screenshots/08-ping-loopbacks-R1.png)
 
-R1 reaches the other core routers' loopbacks when sourced from its own Loopback0, the same path the iBGP sessions will use.
+* R1 reaches the other core routers' loopbacks when sourced from its own Loopback0, the same path the iBGP sessions will use.
 
 ### 5. iBGP sessions on the route reflectors
 
@@ -219,7 +219,7 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 ![R4 BGP summary after](screenshots/15-sh-ip-bgp-summary-R4.png)
 
 
-*R4 now has five Established neighbors: the three clients, R5, and R6 (AS 65200) over the physical link address. R1 and R6 each send one prefix, R5 sends two, and R2 and R3 send none because they originate nothing.
+* R4 now has five Established neighbors: the three clients, R5, and R6 (AS 65200) over the physical link address. R1 and R6 each send one prefix, R5 sends two, and R2 and R3 send none because they originate nothing.
 
 
 ### 6. Client view of the destination prefix (two paths)
@@ -229,21 +229,21 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 ![R3 BGP ping to VPC](screenshots/22-R3-shipbgp.png)
 
 
-*R1 learns 10.200.8.0/24 from both route reflectors, so it holds two paths: one through R5 (AS-path 65300 65400) and one through R4 (AS-path 65200 65400). Both have LocPref 100, the same AS-path length, and the same IGP metric (11) to their next hops. Lowest router ID breaks the tie, so R4's path (4.4.4.4) is best. The routing table installs it as an iBGP route with administrative distance 200.
+* R1 learns 10.200.8.0/24 from both route reflectors, so it holds two paths: one through R5 (AS-path 65300 65400) and one through R4 (AS-path 65200 65400). Both have LocPref 100, the same AS-path length, and the same IGP metric (11) to their next hops. Lowest router ID breaks the tie, so R4's path (4.4.4.4) is best. The routing table installs it as an iBGP route with administrative distance 200.
 
 ![R1 Traceroute to VPC](screenshots/16-ping-traceroute-toVPC-R1.png)
 
-*The ping from R1's Loopback0 succeeds, and the traceroute shows the path R1 actually uses: R4 (10.10.14.2), R6 (10.10.45.2), R8 (10.10.68.2), then the VPC. That matches the best path through R4 and upstream AS 65200.
+* The ping from R1's Loopback0 succeeds, and the traceroute shows the path R1 actually uses: R4 (10.10.14.2), R6 (10.10.45.2), R8 (10.10.68.2), then the VPC. That matches the best path through R4 and upstream AS 65200.
 
 ![VPC Traceroute to R1](screenshots/17-VPC-ping-R1.png)
 
-*The VPC's trace back to R1 goes through R8, R6, and R4, the same path R1 uses to reach the VPC, so the traffic is symmetric. The last line is R1 answering with "destination port unreachable", which is how a VPCS trace shows that the probe reached its target.
+* The VPC's trace back to R1 goes through R8, R6, and R4, the same path R1 uses to reach the VPC, so the traffic is symmetric. The last line is R1 answering with "destination port unreachable", which is how a VPCS trace shows that the probe reached its target.
 
 ### 7. Next-hop reachability
 
 ![R1 ping next hop proof](screenshots/19-R1-ping-nexthop-proof.png)
 
-*R4 and R5 learn 10.200.8.0/24 over eBGP, so the next hop starts out as the upstream's link address (R6 or R7), and iBGP does not rewrite it. Those link subnets are not in OSPF, so the clients cannot reach them. With `next-hop-self` on the route reflectors, R1 sees the RRs' loopbacks (4.4.4.4 and 5.5.5.5) as next hops, both reachable at IGP metric 11, so R1 selects a best path and the ping to the VPC succeeds.
+* R4 and R5 learn 10.200.8.0/24 over eBGP, so the next hop starts out as the upstream's link address (R6 or R7), and iBGP does not rewrite it. Those link subnets are not in OSPF, so the clients cannot reach them. With `next-hop-self` on the route reflectors, R1 sees the RRs' loopbacks (4.4.4.4 and 5.5.5.5) as next hops, both reachable at IGP metric 11, so R1 selects a best path and the ping to the VPC succeeds.
 
 ![R4 next hop self proof](screenshots/20-R4-nexthop-self.png)
 
@@ -253,7 +253,7 @@ R1 reaches the other core routers' loopbacks when sourced from its own Loopback0
 
 ![R2 view to R1 proof](screenshots/23-sh-ip-bgp-to-R1-from-R2.png)
 
-*R2 has no BGP session with R1, so it learns 1.1.1.1/32 through the route reflectors. The route arrives twice, once from R4 and once from R5. Each copy carries an Originator of 1.1.1.1 (R1's router ID, the client that first advertised it) and a Cluster list holding the reflecting router's cluster ID (4.4.4.4 for R4's copy, 5.5.5.5 for R5's). These attributes appear only on reflected routes, which shows the route reflectors are doing the work. Both paths tie on every attribute and on the IGP metric (21), and R4's copy is marked best.
+* R2 has no BGP session with R1, so it learns 1.1.1.1/32 through the route reflectors. The route arrives twice, once from R4 and once from R5. Each copy carries an Originator of 1.1.1.1 (R1's router ID, the client that first advertised it) and a Cluster list holding the reflecting router's cluster ID (4.4.4.4 for R4's copy, 5.5.5.5 for R5's). These attributes appear only on reflected routes, which shows the route reflectors are doing the work. Both paths tie on every attribute and on the IGP metric (21), and R4's copy is marked best.
 
 *The header also says RIB-failure(17). R2 does not install the BGP route because OSPF already provides 1.1.1.1/32 with a lower administrative distance.
 
