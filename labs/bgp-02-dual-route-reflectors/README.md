@@ -83,8 +83,8 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 
 ## Config highlights
 
-* Full configs are in `configs/` . Only the lines that matter are shown here. !(labs/bgp-02-dual-route-reflectors/configs)
-    
+*Full configs are in [`configs/`](configs/). Only the lines that matter are shown here.
+
 ### Route reflector peer-group (R4)
 
 ```
