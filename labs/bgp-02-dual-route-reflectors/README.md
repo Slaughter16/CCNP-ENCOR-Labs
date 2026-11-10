@@ -319,6 +319,7 @@ R8 has no route to 1.1.1.1:
 After the fix:
 
 ![R1 ping works](screenshots/32-R1-ping-works.png)
+
 ![R8 sh R1 works](screenshots/33-R8-seeR1.png)
 
 
