@@ -26,20 +26,10 @@
 
 ## Topology
 
-```
-                AS 65100 (iBGP core, OSPF underlay)
 
-   R1 ----+---- R4 (RR) ---- R6 (AS 65200) ----+
-   R2 ----+                                     |
-   R3 ----+                                     R8 (AS 65400) ---- VPC 10.200.8.10
-   R1 ----+                                     |
-   R2 ----+---- R5 (RR) ---- R7 (AS 65300) ----+
-   R3 ----+
+![ Topology ](screenshots/29-toplogy.png)
 
-   R4 ---- R5   (RR to RR link)
-   Each client (R1, R2, R3) links to both R4 and R5.
 
-```
 
 ## Addressing
 
