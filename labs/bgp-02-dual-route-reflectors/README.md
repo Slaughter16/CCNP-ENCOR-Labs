@@ -308,10 +308,19 @@ After the fix:
 
 
 * **Where does `next-hop-self` go, and why on the route reflectors instead of the clients?**
+* On R4 and R5, because they are the routers that learn the external prefix over eBGP and pass it into iBGP. Without it the clients received R6's and R7's link addresses as next hops, and with those subnets kept out of OSPF the paths were inaccessible (Bug 2). Configuring it once on the RRs' peer-group fixes every client without touching their configs and keeps external link subnets out of the IGP. The alternative is advertising those link subnets into OSPF, which spreads external addressing through the core.
+
 * **Should R4 and R5 peer with each other, and as clients or non-clients?**
+* They peer as ordinary iBGP neighbors outside the RR-CLIENTS peer-group, so neither is a client of the other. Each RR learns only its own upstream's path over eBGP, and the peering gives it the other RR's path as a backup. R4's table showed the path through R5 as the standby, and when its link to R6 was shut it switched to that path.
+
 * **One cluster ID or two for the RRs?** What does each choice do to redundancy and to the number of duplicate paths the clients hold?
+*  I used the default, so each RR uses its own router ID as its cluster ID (two cluster IDs). Section 8 shows this: the Cluster list is 4.4.4.4 on the copy reflected by R4 and 5.5.5.5 on the copy reflected by R5. R2 holds a copy from each RR, and that is what let R1 keep its route when R4 went down. With a shared cluster ID, each RR would reject routes the other had reflected (it would see its own cluster ID), which reduces duplicate paths on the RRs; the clients would still hold a copy from each RR, because each one peers with both.
+  
 * **Why `ip ospf network point-to-point` on the /30 links?** On Ethernet, OSPF defaults to broadcast and elects a DR and BDR, which a two-router link does not need.
+*  Ethernet interfaces default to the broadcast network type, so OSPF elects a DR and BDR even on a link with only two routers. Point-to-point skips that election. R4's neighbor table shows `FULL/ -` with priority 0, which means no DR or BDR was elected on those links.
+  
 * **Which path did the clients pick when both upstream paths were equal, and which tiebreaker decided it?**
+*   R1 held two iBGP paths to 10.200.8.0/24, one through each RR. LocPref (100), AS-path length (2), and IGP metric (11) were all equal, and both paths were iBGP, so the oldest-path rule did not apply. The lowest router ID decided it: R4's 4.4.4.4 beat R5's 5.5.5.5.
 
 \---
 
