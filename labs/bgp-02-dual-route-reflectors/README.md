@@ -302,6 +302,26 @@ After the fix:
 ![R1 ping next hop proof](screenshots/19-R1-ping-nexthop-proof.png)
 
 
+### Bug 3: Ping to the VPC failed even though R1 had the route
+
+* **Symptom:** R1 had 10.200.8.0/24 in its BGP table with a best path, but a ping from R1's Loopback0 to the VPC failed (0/5), and the traceroute stopped after the first hop or two.
+* **Root cause:** The forward path was fine, but R8 had no route back to R1's loopback (1.1.1.1). Nothing was advertising it into BGP, and the core's OSPF is invisible to the upstream ASes, so R8 dropped the replies. A BGP table entry only describes the forward direction.
+* **Fix:** Restored `network 1.1.1.1 mask 255.255.255.255` on R1, so the loopback propagates through the route reflectors and upstreams to R8. The ping then succeeded. (Reproduced for the screenshots by removing the line, then restoring it.)
+
+Broken state:
+
+![R1 ping fail to R8](screenshots/30-R1-ping-failed.png)
+
+R8 has no route to 1.1.1.1:
+
+![R8 sh ip route R1](screenshots/31-sh-iproute-R8.png)
+
+After the fix:
+
+![R1 ping works](screenshots/32-R1-ping-works.png)
+![R8 sh R1 works](screenshots/33-R8-seeR1.png)
+
+
 ---
 
 ## Design decisions
