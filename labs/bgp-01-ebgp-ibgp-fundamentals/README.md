@@ -94,5 +94,3 @@ router bgp 65002
 - Routing working and BGP trusting a neighbor are two separate things. The packets can pass through fine while the BGP process refuses the session.
 - iBGP's rules (no relaying between iBGP peers, no next-hop change) are deliberate, and each one creates a problem that has a standard fix (route reflectors, next-hop-self).
 - Reading a BGP session in a packet capture makes the FSM states concrete in a way that typing commands does not.
-
-## Files
