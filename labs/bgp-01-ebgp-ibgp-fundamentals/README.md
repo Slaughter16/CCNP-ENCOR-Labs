@@ -88,7 +88,6 @@ router bgp 65002
  exit-address-family
 ```
 
-Full configs for every router are in [`configs/`](configs/).
 
 ## Takeaways
 
