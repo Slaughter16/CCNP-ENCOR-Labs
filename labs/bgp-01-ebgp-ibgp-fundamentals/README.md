@@ -38,7 +38,7 @@ R1 and R5 each peer eBGP with the edge of AS 65002. Inside AS 65002 the routers 
 
 I captured the full session lifecycle in Wireshark: the TCP 3-way handshake on port 179, then OPEN in both directions, KEEPALIVEs, and UPDATE messages carrying the routes. On the router side I followed the FSM states: Idle, Connect, Active, OpenSent, OpenConfirm, Established.
 
-![Session capture](screenshots/02-wireshark-session-establishment.png)
+![Session capture](screenshots/02G2.jpg)
 
 *TCP SYN / SYN-ACK / ACK to port 179, followed by OPEN, KEEPALIVE, and UPDATE messages between 10.1.1.1 and 10.1.1.2.*
 
