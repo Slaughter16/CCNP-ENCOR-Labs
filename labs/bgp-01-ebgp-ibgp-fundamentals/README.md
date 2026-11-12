@@ -64,7 +64,7 @@ In the R3 table above, `1.1.1.1/32` has next-hop `10.1.1.1` and is not marked be
 
 After the fix, the NEXT_HOP field in the UPDATE message changes value, confirmed in Wireshark:
 
-[UPDATE message attributes](screenshots/04-wireshark-update-path-attributes.png)
+[UPDATE message attributes](screenshots/04G4.jpg)
 
 *UPDATE message showing ORIGIN IGP, AS_PATH 65001, NEXT_HOP 10.1.2.1, MED 0, LOCAL_PREF 100.*
 
