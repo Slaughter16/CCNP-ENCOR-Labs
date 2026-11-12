@@ -46,7 +46,7 @@ I captured the full session lifecycle in Wireshark: the TCP 3-way handshake on p
 
 Weight, Local Preference, AS_PATH, and Origin all behaved as expected once I read them from `show ip bgp` instead of from a definition table.
 
-![R3 BGP table](screenshots/03-r3-show-ip-bgp.png)
+![R3 BGP table](screenshots/03G3.jpg)
 
 *R3's BGP table. Routes learned through iBGP carry LocPrf 100 and weight 0. The locally originated 3.3.3.3/32 has weight 32768.*
 
