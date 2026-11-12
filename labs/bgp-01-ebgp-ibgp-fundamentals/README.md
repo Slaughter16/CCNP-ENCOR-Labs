@@ -71,7 +71,7 @@ After the fix, the NEXT_HOP field in the UPDATE message changes value, confirmed
 
 ## Key Config (R3)
 
-![R3 BGP config](screenshots/05-r3-bgp-config.png)
+![R3 BGP config](screenshots/05G5.jpg)
 
 ```
 router bgp 65002
