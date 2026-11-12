@@ -4,7 +4,6 @@
 **Topics:** iBGP, route reflectors, peer-groups, OSPF underlay, eBGP, next-hop-self, best-path selection, redundancy
 **Environment:** EVE-NG on Proxmox, Cisco IOL (i86bi-linux-l3-p-15.0b, IOS 15.0)
 
-\---
 
 ## Objectives
 
@@ -22,7 +21,6 @@
 > - Which upstream path won by default, and which tiebreaker decided it.
 > - What changed after the LocPref policy, with the traceroute to prove it.
 
-\---
 
 ## Topology
 
@@ -79,7 +77,6 @@ All point-to-point links use /30 subnets. On each link, the lower-numbered route
 |eBGP peering|Physical interface addresses|
 |OSPF network type|Point-to-point on the /30 links (see Design decisions)|
 
-\---
 
 ## Config highlights
 
@@ -144,7 +141,6 @@ interface Ethernet 0/0-2 , 1/0
 * OSPF carries R4's loopback and its four internal links in area 0. R4's link to R6 (10.10.45.0/30) is left out on purpose, so external link subnets stay out of the IGP. The same `point-to-point` line is on Ethernet 0/0, Ethernet0/1, Ethernet0/2, and Ethernet1/0, which skips the DR/BDR election on two-router links.
 
 
-\---
 
 ## Verification
 
@@ -343,7 +339,7 @@ After the fix:
 * **Which path did the clients pick when both upstream paths were equal, and which tiebreaker decided it?**
 *   R1 held two iBGP paths to 10.200.8.0/24, one through each RR. LocPref (100), AS-path length (2), and IGP metric (11) were all equal, and both paths were iBGP, so the oldest-path rule did not apply. The lowest router ID decided it: R4's 4.4.4.4 beat R5's 5.5.5.5.
 
-\---
+---
 
 ## Files
 
