@@ -13,7 +13,7 @@ Understand BGP from what is actually on the wire and in the tables, not just the
 
 ## Topology
 
-![Topology](screenshots/01-topology.png)
+![Topology](screenshots/01G1.jpg)
 
 | Router | AS | Loopback0 | Role |
 |--------|-------|-----------|------|
