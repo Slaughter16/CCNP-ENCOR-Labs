@@ -64,4 +64,35 @@ In the R3 table above, `1.1.1.1/32` has next-hop `10.1.1.1` and is not marked be
 
 After the fix, the NEXT_HOP field in the UPDATE message changes value, confirmed in Wireshark:
 
-![UPDATE
+[UPDATE message attributes](screenshots/04-wireshark-update-path-attributes.png)
+
+*UPDATE message showing ORIGIN IGP, AS_PATH 65001, NEXT_HOP 10.1.2.1, MED 0, LOCAL_PREF 100.*
+
+## Key Config (R3)
+
+![R3 BGP config](screenshots/05-r3-bgp-config.png)
+
+```
+router bgp 65002
+ bgp router-id 3.3.3.3
+ bgp log-neighbor-changes
+ no bgp default ipv4-unicast
+ neighbor 10.1.2.1 remote-as 65002
+ neighbor 10.1.3.2 remote-as 65002
+ !
+ address-family ipv4
+  network 3.3.3.3 mask 255.255.255.255
+  neighbor 10.1.2.1 activate
+  neighbor 10.1.3.2 activate
+ exit-address-family
+```
+
+Full configs for every router are in [`configs/`](configs/).
+
+## Takeaways
+
+- Routing working and BGP trusting a neighbor are two separate things. The packets can pass through fine while the BGP process refuses the session.
+- iBGP's rules (no relaying between iBGP peers, no next-hop change) are deliberate, and each one creates a problem that has a standard fix (route reflectors, next-hop-self).
+- Reading a BGP session in a packet capture makes the FSM states concrete in a way that typing commands does not.
+
+## Files
